@@ -1,0 +1,69 @@
+========================================================================
+                      JENKINS NAVIGATOR DOCUMENTATION
+========================================================================
+
+Jenkins Navigator is an interactive Single-Page Application (SPA) designed 
+to act as a premium, developer-focused guide to Jenkins CI/CD workflows.
+
+------------------------------------------------------------------------
+1. PROJECT OVERVIEW
+------------------------------------------------------------------------
+The project comprises a fully responsive static front-end page (index.html), 
+a Docker configuration for containerization, and a Jenkinsfile defining 
+the automated build, validation, and delivery pipeline.
+
+------------------------------------------------------------------------
+2. FILE STRUCTURE
+------------------------------------------------------------------------
+- /index.html
+  The core application containing markup, premium developer-focused CSS
+  styling (Space Mono and DM Sans fonts, dark mode, neo-cyberpunk grid lines,
+  and hover micro-interactions), and vanilla JS (Intersection Observer 
+  for fade-ins, active link highlighting, and stats counters).
+  
+- /Dockerfile
+  Alpine-based Nginx container layout that copies index.html into the 
+  default Nginx web path and exposes port 80.
+
+- /Jenkinsfile
+  Declarative Groovy pipeline configured to build the Docker image, run 
+  verification health-checks against a mock host, and push tags to Docker Hub.
+  
+- /.gitignore
+  Excludes local build directories, IDE metadata, OS metadata, and environment 
+  secrets from Git version tracking.
+
+- /.dockerignore
+  Prevents copying heavy local dependency folders (like node_modules) or 
+  confidential IDE configs into the docker container build context.
+
+- /banner.png
+  Project marketing banner used in project documentations.
+
+------------------------------------------------------------------------
+3. RESPONSIVENESS AND BUG FIXES
+------------------------------------------------------------------------
+- Z-Index Fix: Corrected mobile menu drawer overlays by reducing overlay 
+  z-index layer levels, making slide-out drawer links fully interactive.
+  
+- Layout Containment: Changed grid-template layouts to use minmax(0, 1fr) 
+  rather than 1fr to prevent horizontal stretching.
+  
+- Scrollable Code Containers: Implemented max-width bounds and horizontal 
+  overflow scrollbars (overflow-x: auto) for long command blocks inside 
+  the Key Commands section.
+
+------------------------------------------------------------------------
+4. HOW TO RUN AND DEPLOY
+------------------------------------------------------------------------
+Local Browser:
+Double-click index.html or open via a local development server (e.g., Live Server).
+
+Docker Container:
+  docker build -t jenkins-navigator:latest .
+  docker run -d -p 80:80 --name navigator jenkins-navigator:latest
+
+Jenkins Pipeline:
+Ensure dockerhub-creds are configured in your Jenkins credentials store, 
+create a Pipeline project targeting this repository, and run the build.
+========================================================================
