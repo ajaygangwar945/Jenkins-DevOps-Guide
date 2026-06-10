@@ -4,7 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jenkins — The Complete Guide</title>
+  <title>Jenkins Navigator</title>
+  <link rel="icon" type="image/svg+xml" href="https://www.jenkins.io/images/logos/jenkins/jenkins.svg">
   <link
     href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap"
     rel="stylesheet">
@@ -61,52 +62,111 @@
       left: 0;
       right: 0;
       z-index: 100;
-      background: var(--ink);
+      background: rgba(13, 13, 13, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border-bottom: 2px solid var(--accent);
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0 2.5rem;
-      height: 56px;
+      height: 64px;
+      transition: background 0.3s, height 0.3s;
     }
 
     .nav-logo {
       font-family: var(--mono);
-      font-size: 13px;
+      font-size: 14px;
       color: var(--paper);
-      letter-spacing: 0.12em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+      text-decoration: none;
+      transition: opacity 0.2s;
     }
 
-    .nav-logo .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--accent);
-      animation: pulse 2s ease-in-out infinite;
+    .nav-logo:hover {
+      opacity: 0.9;
     }
 
-    @keyframes pulse {
+    .nav-logo .logo-img {
+      height: 38px;
+      width: auto;
+      transition: transform 0.3s ease-in-out;
+    }
 
-      0%,
-      100% {
-        opacity: 1;
-        transform: scale(1);
-      }
+    .nav-logo:hover .logo-img {
+      transform: scale(1.1) rotate(-5deg);
+    }
 
-      50% {
-        opacity: 0.5;
-        transform: scale(0.8);
-      }
+    /* HAMBURGER TOGGLE BUTTON */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 24px;
+      height: 18px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      z-index: 110;
+      padding: 0;
+    }
+
+    .nav-toggle .bar {
+      width: 100%;
+      height: 2px;
+      background-color: var(--paper);
+      transition: all 0.3s ease-in-out;
+      transform-origin: left center;
+    }
+
+    /* Hamburger Animation to 'X' */
+    .nav-toggle.active .bar:nth-child(1) {
+      transform: rotate(45deg);
+      background-color: var(--accent);
+    }
+
+    .nav-toggle.active .bar:nth-child(2) {
+      width: 0%;
+      opacity: 0;
+    }
+
+    .nav-toggle.active .bar:nth-child(3) {
+      transform: rotate(-45deg);
+      background-color: var(--accent);
+    }
+
+    .nav-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 99;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+
+    .nav-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
     }
 
     .nav-links {
       display: flex;
       gap: 0;
       list-style: none;
+      height: 100%;
+    }
+
+    .nav-links li {
+      height: 100%;
+      display: flex;
+      align-items: center;
     }
 
     .nav-links a {
@@ -115,8 +175,8 @@
       color: #888;
       text-decoration: none;
       letter-spacing: 0.1em;
-      padding: 0 1rem;
-      height: 56px;
+      padding: 0 1.2rem;
+      height: 64px;
       display: flex;
       align-items: center;
       border-left: 1px solid #1e1e1e;
@@ -129,16 +189,80 @@
       background: #1a1a1a;
     }
 
+    /* RESPONSIVE PADDING HELPERS */
+    .section-inner {
+      padding: 0 5rem;
+    }
+
+    .section-inner-top {
+      padding: 2rem 5rem 0;
+    }
+
     /* HERO */
     .hero {
-      min-height: 100vh;
+      height: 100vh;
+      min-height: 620px;
       background: var(--ink);
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 7rem 5rem 5rem;
+      padding: 5rem 5rem 3rem;
       position: relative;
       overflow: hidden;
+    }
+
+    .hero-container {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      align-items: center;
+      gap: 4rem;
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero-visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      background: radial-gradient(circle, rgba(217, 79, 0, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .hero-logo-img {
+      width: 270px;
+      height: auto;
+      filter: drop-shadow(0 0 35px rgba(217, 79, 0, 0.25));
+      animation: floatLogo 6s ease-in-out infinite;
+      position: relative;
+      z-index: 2;
+    }
+
+    @keyframes floatLogo {
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(0deg);
+      }
+
+      50% {
+        transform: translateY(-15px) rotate(3deg);
+      }
     }
 
     .hero-grid-bg {
@@ -172,11 +296,11 @@
 
     .hero h1 {
       font-family: var(--mono);
-      font-size: clamp(3rem, 7vw, 6.5rem);
+      font-size: clamp(2.5rem, 5.2vw, 4.8rem);
       color: var(--paper);
       line-height: 0.95;
       letter-spacing: -0.02em;
-      margin-bottom: 2rem;
+      margin-bottom: 1.25rem;
       position: relative;
     }
 
@@ -186,11 +310,11 @@
     }
 
     .hero-desc {
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       color: #8a8580;
       max-width: 520px;
       line-height: 1.7;
-      margin-bottom: 3rem;
+      margin-bottom: 1.75rem;
       font-weight: 300;
     }
 
@@ -202,7 +326,7 @@
     }
 
     .hero-stat {
-      padding: 1.2rem 2rem;
+      padding: 0.8rem 1.75rem;
       border-right: 1px solid #2a2a2a;
       text-align: center;
     }
@@ -213,7 +337,7 @@
 
     .hero-stat .num {
       font-family: var(--mono);
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       color: var(--paper);
       display: block;
     }
@@ -228,7 +352,7 @@
 
     .hero-scroll {
       position: absolute;
-      bottom: 2.5rem;
+      bottom: 1.5rem;
       left: 5rem;
       display: flex;
       align-items: center;
@@ -963,6 +1087,8 @@
       padding: 6px 10px;
       margin-bottom: 4px;
       border-left: 2px solid var(--accent);
+      overflow-x: auto;
+      white-space: nowrap;
     }
 
     .cmd-desc {
@@ -1012,21 +1138,79 @@
     }
 
     /* RESPONSIVE TWEAKS */
-    @media (max-width: 900px) {
+    @media (max-width: 1024px) {
       nav {
         padding: 0 1.5rem;
+        height: 52px;
+      }
+      
+      .nav-logo {
+        font-size: 13px;
+      }
+      
+      .nav-logo .logo-img {
+        height: 28px;
+      }
+
+      .nav-toggle {
+        display: flex;
+        width: 22px;
+        height: 16px;
       }
 
       .nav-links {
-        display: none;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 260px;
+        max-width: 80%;
+        height: 100vh;
+        background: rgba(13, 13, 13, 0.98);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-left: 2px solid var(--accent);
+        padding: 70px 1.25rem 1.25rem 1.25rem;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+        z-index: 105;
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+        transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
       }
 
-      .hero {
-        padding: 7rem 2rem 5rem;
+      .nav-links.active {
+        right: 0;
       }
 
-      .hero h1 {
-        font-size: 3rem;
+      .nav-links li {
+        width: 100%;
+        height: auto;
+      }
+
+      .nav-links a {
+        width: 100%;
+        height: 44px;
+        border-left: none;
+        border-bottom: 1px solid #1e1e1e;
+        font-size: 12px;
+        color: #aaa;
+        padding: 0 0.25rem;
+      }
+
+      .nav-links a:hover {
+        background: transparent;
+        color: var(--accent);
+        padding-left: 8px;
+        transition: padding-left 0.2s ease, color 0.2s ease;
+      }
+
+      .section-inner,
+      .section-inner-top {
+        padding: 0 2.5rem;
+      }
+
+      .section-inner-top {
+        padding-top: 1.5rem;
       }
 
       #what,
@@ -1037,31 +1221,79 @@
       #security,
       #best-practices,
       #commands {
-        padding: 4rem 2rem;
+        padding: 4rem 2.5rem;
       }
 
-      .what-grid,
-      .cicd-grid,
-      .cmd-grid {
-        grid-template-columns: 1fr;
+      /* Hero Tablet Adjustments */
+      .hero {
+        padding: 5.5rem 2.5rem 3.5rem;
+        height: auto;
+        min-height: auto;
       }
 
-      .what-text {
-        border-right: none;
-        border-bottom: var(--border);
+      .hero-container {
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 2.5rem;
       }
 
+      .hero-logo-img {
+        width: 220px;
+      }
+
+      .hero-glow {
+        width: 260px;
+        height: 260px;
+      }
+
+      .hero h1 {
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        margin-bottom: 1rem;
+      }
+
+      .hero-desc {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .hero-stat {
+        padding: 0.6rem 1.25rem;
+      }
+
+      .hero-stat .num {
+        font-size: 1.3rem;
+      }
+
+      .hero-stat .label {
+        font-size: 9px;
+      }
+
+      .hero-scroll {
+        display: none;
+      }
+
+      /* Grid 2-columns for Tablets */
       .arch-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
       }
 
       .arch-card {
+        padding: 2rem 1.5rem;
+      }
+
+      .arch-card:nth-child(2n) {
         border-right: none;
-        border-bottom: 1px solid #2a2a2a;
+      }
+
+      .arch-card:nth-child(n+3) {
+        border-top: 1px solid #2a2a2a;
       }
 
       .plugin-categories {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .plugin-cat {
+        padding: 1.5rem 1.25rem;
       }
 
       .plugin-cat:nth-child(2n) {
@@ -1072,17 +1304,182 @@
         border-top: var(--border);
       }
 
-      .security-grid,
       .practices-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .practice-card {
+        padding: 2rem 1.5rem;
+      }
+
+      .practice-card:nth-child(2n) {
+        border-right: none;
+      }
+
+      .practice-card:nth-child(n+3) {
+        border-top: 1px solid #222;
+      }
+    }
+
+    @media (max-width: 768px) {
+      /* Hero collapses to single column on small tablets/mobile */
+      .hero-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        text-align: center;
+      }
+
+      .hero-content {
+        align-items: center;
+      }
+
+      .hero-desc {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .hero-stats {
+        margin: 0 auto;
+      }
+
+      .hero-visual {
+        order: -1;
+        margin-bottom: 0.5rem;
+      }
+
+      .hero-logo-img {
+        width: 160px;
+      }
+
+      .hero-glow {
+        width: 180px;
+        height: 180px;
+      }
+
+      .plugins-intro {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        margin-bottom: 2.5rem;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .section-inner,
+      .section-inner-top {
+        padding: 0;
+      }
+
+      #what,
+      #architecture,
+      #pipeline,
+      #plugins,
+      #cicd,
+      #security,
+      #best-practices,
+      #commands {
+        padding: 2.5rem 1.25rem;
+      }
+
+      .hero {
+        padding: 5rem 1.25rem 3rem;
+      }
+
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+
+      .hero-desc {
+        font-size: 0.95rem;
+      }
+
+      .hero-stats {
+        flex-direction: column;
+        width: 100%;
+        border-bottom: none;
+      }
+
+      .hero-stat {
+        padding: 0.8rem 1.25rem;
+        border-right: none;
+        border-bottom: 1px solid #2a2a2a;
+        text-align: left;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .hero-stat:last-child {
+        border-bottom: 1px solid #2a2a2a;
+      }
+
+      .hero-logo-img {
+        width: 130px;
+      }
+
+      /* Stack grids into 1 column for mobile */
+      .what-grid,
+      .arch-grid,
+      .plugin-categories,
+      .plugins-intro,
+      .cicd-grid,
+      .security-grid,
+      .practices-grid,
+      .cmd-grid {
         grid-template-columns: 1fr;
       }
 
-      .sec-item,
-      .practice-card {
-        border-right: none !important;
+      .what-text {
+        padding: 1.5rem 1.25rem;
+        border-right: none;
+        border-bottom: var(--border);
       }
 
-      .practice-card:nth-last-child(n) {
+      .what-visual {
+        padding: 1.5rem 1.25rem;
+      }
+
+      .arch-card {
+        border-right: none !important;
+        border-bottom: 1px solid #2a2a2a;
+      }
+
+      .arch-card:last-child {
+        border-bottom: none;
+      }
+
+      .plugin-cat {
+        border-right: none !important;
+        border-top: none !important;
+        border-bottom: var(--border);
+      }
+
+      .plugin-cat:last-child {
+        border-bottom: none;
+      }
+
+      .cicd-card {
+        padding: 1.5rem 1.25rem;
+        border-right: none !important;
+        border-bottom: 1px solid #0a2a45;
+      }
+
+      .cicd-card:last-child {
+        border-bottom: none;
+      }
+
+      .sec-item {
+        padding: 1.5rem 1.25rem;
+        border-right: none !important;
+        border-bottom: var(--border);
+      }
+
+      .sec-item:last-child {
+        border-bottom: none;
+      }
+
+      .practice-card {
+        padding: 1.5rem 1.25rem;
+        border-right: none !important;
         border-bottom: 1px solid #222;
       }
 
@@ -1090,36 +1487,49 @@
         border-bottom: none;
       }
 
-      footer {
-        flex-direction: column;
-        gap: 1.5rem;
-        text-align: center;
+      .cmd-group {
+        padding: 1.25rem;
+        border-right: none !important;
+        border-bottom: var(--border) !important;
       }
 
-      .footer-meta {
-        text-align: center;
-      }
-
-      .plugins-intro {
-        grid-template-columns: 1fr;
-      }
-
-      .hero-stats {
-        flex-direction: column;
-      }
-
-      .hero-stat {
-        border-right: none;
-        border-bottom: 1px solid #2a2a2a;
+      .cmd-group:last-child {
+        border-bottom: none !important;
       }
 
       .pipeline-flow {
         flex-direction: column;
+        margin-bottom: 1.5rem;
       }
 
       .pipeline-stage {
         border-right: none;
         border-bottom: var(--border);
+      }
+
+      .pipeline-stage:last-child {
+        border-bottom: none;
+      }
+
+      .pipeline-code {
+        padding: 1rem;
+        font-size: 11px;
+      }
+
+      footer {
+        flex-direction: column;
+        gap: 1.25rem;
+        text-align: center;
+        padding: 2rem 1.25rem;
+      }
+
+      .footer-brand {
+        font-size: 1rem;
+      }
+
+      .footer-meta {
+        text-align: center;
+        font-size: 10px;
       }
     }
   </style>
@@ -1127,13 +1537,21 @@
 
 <body>
 
+  <!-- NAV OVERLAY FOR MOBILE -->
+  <div class="nav-overlay" id="navOverlay"></div>
+
   <!-- NAV -->
   <nav>
-    <div class="nav-logo">
-      <div class="dot"></div>
-      Jenkins // Reference
-    </div>
-    <ul class="nav-links">
+    <a href="#" class="nav-logo">
+      <img src="https://www.jenkins.io/images/logos/jenkins/jenkins.svg" alt="Jenkins Logo" class="logo-img">
+      <span>Jenkins Navigator</span>
+    </a>
+    <button class="nav-toggle" aria-label="Toggle navigation" id="navToggle">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
       <li><a href="#what">Overview</a></li>
       <li><a href="#architecture">Architecture</a></li>
       <li><a href="#pipeline">Pipeline</a></li>
@@ -1148,30 +1566,39 @@
   <!-- HERO -->
   <section class="hero">
     <div class="hero-grid-bg"></div>
-    <div class="hero-tag">Automation Server — Open Source CI/CD</div>
-    <h1>
-      Build. Test.<span>Deploy.</span>
-    </h1>
-    <p class="hero-desc">
-      Jenkins is the leading open-source automation server that enables developers to build, test, and deploy software
-      with extraordinary speed and confidence.
-    </p>
-    <div class="hero-stats">
-      <div class="hero-stat">
-        <span class="num">1800+</span>
-        <span class="label">Plugins</span>
+    <div class="hero-container">
+      <div class="hero-content">
+
+        <h1>
+          Build. Test.<span>Deploy.</span>
+        </h1>
+        <p class="hero-desc">
+          Jenkins is the leading open-source automation server that enables developers to build, test, and deploy
+          software
+          with extraordinary speed and confidence.
+        </p>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <span class="num">1800+</span>
+            <span class="label">Plugins</span>
+          </div>
+          <div class="hero-stat">
+            <span class="num">300K+</span>
+            <span class="label">Installations</span>
+          </div>
+          <div class="hero-stat">
+            <span class="num">2004</span>
+            <span class="label">Created</span>
+          </div>
+          <div class="hero-stat">
+            <span class="num">Java</span>
+            <span class="label">Built With</span>
+          </div>
+        </div>
       </div>
-      <div class="hero-stat">
-        <span class="num">300K+</span>
-        <span class="label">Installations</span>
-      </div>
-      <div class="hero-stat">
-        <span class="num">2004</span>
-        <span class="label">Created</span>
-      </div>
-      <div class="hero-stat">
-        <span class="num">Java</span>
-        <span class="label">Built With</span>
+      <div class="hero-visual">
+        <div class="hero-glow"></div>
+        <img src="https://www.jenkins.io/images/logos/jenkins/jenkins.svg" alt="Jenkins Logo" class="hero-logo-img">
       </div>
     </div>
     <div class="hero-scroll">
@@ -1253,11 +1680,11 @@
 
   <!-- ARCHITECTURE -->
   <section id="architecture">
-    <div class="section-header fade-in" style="padding: 0 5rem 0;">
+    <div class="section-header fade-in section-inner">
       <span class="section-num" style="border-color:#444;color:var(--accent);">02</span>
       <h2 class="section-title light">Architecture</h2>
     </div>
-    <div style="padding: 0 5rem 0;">
+    <div class="section-inner">
       <div class="arch-grid fade-in">
         <div class="arch-card" style="--card-accent: #d94f00;">
           <div class="arch-icon" style="--card-accent: #d94f00;">M</div>
@@ -1298,7 +1725,7 @@
       </div>
     </div>
     <!-- Connection diagram text below grid -->
-    <div style="padding: 2rem 5rem 0; text-align: center;">
+    <div class="section-inner-top" style="text-align: center;">
       <p style="font-family: var(--mono); font-size: 12px; color: #333; letter-spacing: 0.1em;">
         MASTER ←—JNLP/SSH—→ AGENT ←—→ EXECUTOR ←—→ WORKSPACE
       </p>
@@ -1475,11 +1902,11 @@
 
   <!-- CI/CD -->
   <section id="cicd">
-    <div class="section-header fade-in" style="padding: 0 5rem 0;">
+    <div class="section-header fade-in section-inner">
       <span class="section-num" style="border-color:#0a3a5c;color:#4aaa88;">05</span>
       <h2 class="section-title light">CI / CD with Jenkins</h2>
     </div>
-    <div style="padding: 0 5rem;">
+    <div class="section-inner">
       <div class="cicd-grid fade-in">
         <div class="cicd-card">
           <h3>
@@ -1560,11 +1987,11 @@
 
   <!-- BEST PRACTICES -->
   <section id="best-practices">
-    <div class="section-header fade-in" style="padding: 0 5rem;">
+    <div class="section-header fade-in section-inner">
       <span class="section-num" style="border-color:#222;color:var(--accent);">07</span>
       <h2 class="section-title light">Best Practices</h2>
     </div>
-    <div style="padding: 0 5rem;">
+    <div class="section-inner">
       <div class="practices-grid fade-in">
         <div class="practice-card">
           <span class="practice-num">01</span>
@@ -1719,14 +2146,14 @@
 
     // Active nav link highlighting
     const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.nav-links a');
+    const navLinksList = document.querySelectorAll('.nav-links a');
 
     window.addEventListener('scroll', () => {
       let current = '';
       sections.forEach(s => {
         if (window.scrollY >= s.offsetTop - 80) current = s.id;
       });
-      navLinks.forEach(a => {
+      navLinksList.forEach(a => {
         a.style.color = a.getAttribute('href') === '#' + current ? '#f5f2eb' : '';
       });
     });
@@ -1746,6 +2173,45 @@
           counter.textContent = count.toLocaleString() + suffix;
           if (count >= target) clearInterval(timer);
         }, 30);
+      }
+    });
+
+    // Mobile Responsive Navigation Script
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    const navOverlay = document.getElementById('navOverlay');
+
+    function toggleMenu() {
+      navToggle.classList.toggle('active');
+      navLinks.classList.toggle('active');
+      navOverlay.classList.toggle('active');
+
+      if (navLinks.classList.contains('active')) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+    }
+
+    if (navToggle) navToggle.addEventListener('click', toggleMenu);
+    if (navOverlay) navOverlay.addEventListener('click', toggleMenu);
+
+    navLinksList.forEach(item => {
+      item.addEventListener('click', () => {
+        if (navLinks.classList.contains('active')) {
+          toggleMenu();
+        }
+      });
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 900) {
+        if (navLinks.classList.contains('active')) {
+          navToggle.classList.remove('active');
+          navLinks.classList.remove('active');
+          navOverlay.classList.remove('active');
+          document.body.style.overflow = '';
+        }
       }
     });
   </script>
