@@ -1044,7 +1044,7 @@
 
     .cmd-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 0;
       border: var(--border);
     }
@@ -1053,6 +1053,7 @@
       padding: 2rem;
       border-right: var(--border);
       border-bottom: var(--border);
+      min-width: 0; /* Prevents container from stretching on overflow */
     }
 
     .cmd-group:nth-child(2n) {
@@ -1076,6 +1077,7 @@
 
     .cmd-item {
       margin-bottom: 1rem;
+      min-width: 0;
     }
 
     .cmd-code {
@@ -1089,6 +1091,23 @@
       border-left: 2px solid var(--accent);
       overflow-x: auto;
       white-space: nowrap;
+      max-width: 100%;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Polish code block scrollbars */
+    .cmd-code::-webkit-scrollbar {
+      height: 4px;
+    }
+    .cmd-code::-webkit-scrollbar-track {
+      background: #121212;
+    }
+    .cmd-code::-webkit-scrollbar-thumb {
+      background: #333;
+      border-radius: 2px;
+    }
+    .cmd-code::-webkit-scrollbar-thumb:hover {
+      background: var(--accent);
     }
 
     .cmd-desc {
@@ -1103,7 +1122,7 @@
       padding: 3rem 5rem;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
     }
 
     .footer-brand {
@@ -1425,7 +1444,7 @@
       .security-grid,
       .practices-grid,
       .cmd-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
       }
 
       .what-text {
@@ -1525,11 +1544,6 @@
 
       .footer-brand {
         font-size: 1rem;
-      }
-
-      .footer-meta {
-        text-align: center;
-        font-size: 10px;
       }
     }
   </style>
@@ -2123,12 +2137,7 @@
 
   <!-- FOOTER -->
   <footer>
-    <div class="footer-brand">Jenkins<span>.</span></div>
-    <div class="footer-meta">
-      Open Source CI/CD Server<br>
-      jenkins.io — MIT License<br>
-      © 2024 Jenkins Community
-    </div>
+    <div class="footer-brand">Jenkins Navigator<span>.</span></div>
   </footer>
 
   <script>
